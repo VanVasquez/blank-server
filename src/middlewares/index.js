@@ -1,23 +1,23 @@
-const allowedOrigins = require("../allowedOrigin");
-
+const allowedOrigins = require('../allowedOrigin');
+const jwt = require('jsonwebtoken');
 module.exports = {
   //This function gives the site the right to have controles(create, read, update, delete) in this api
   credentials: (req, res, next) => {
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
-      res.header("Access-Control-Allow-Credentials", true);
+      res.header('Access-Control-Allow-Credentials', true);
     }
     next();
   },
   authorizedToken: (req, res, next) => {
-    const authHeader = req.headers["authorization"];
+    const authHeader = req.headers['authorization'];
     if (!authHeader) {
-      return res.status(401).json({ message: "Missing Authorization Header" });
+      return res.status(401).json({ message: 'Missing Authorization Header' });
     }
     //Authheader has 'Bearer (jwtaccesstoken)'
-    const accessToken = authHeader.spli(" ")[1];
+    const accessToken = authHeader.split(' ')[1];
     if (!accessToken) {
-      return res.status(401).json({ message: "Missing Access Token" });
+      return res.status(401).json({ message: 'Missing Access Token' });
     }
 
     try {
@@ -26,7 +26,7 @@ module.exports = {
       next();
     } catch (err) {
       console.log(err);
-      res.status(401).json({ message: "Invalid access token" });
+      res.status(401).json({ message: 'Invalid access token' });
     }
   },
 };
