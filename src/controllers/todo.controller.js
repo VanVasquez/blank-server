@@ -14,7 +14,6 @@ module.exports = {
   deleteTodo: async (req, res) => {
     try {
       const { id } = req.query;
-      console.log(id);
       await model.Todo.findByIdAndDelete(id);
 
       res.status(200).json();

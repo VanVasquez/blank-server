@@ -7,7 +7,6 @@ module.exports = {
     if (!cookies?.jwt) return res.status(401);
 
     const refreshToken = cookies.jwt;
-    console.log(refreshToken);
     const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
     const user = await model.User.findOne({ username: decoded.username });
     if (!user) {
